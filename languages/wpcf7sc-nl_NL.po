@@ -1,0 +1,131 @@
+# Copyright (C) 2026 Patrick Mauersberger
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Contact Form 7 Simple Captcha Extension 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/contact-form-7-simple-captcha\n"
+"Last-Translator: Patrick Mauersberger\n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-20T13:46:13+00:00\n"
+"PO-Revision-Date: 2026-11-20 13:51+0000\n"
+"X-Generator: WP-CLI 2.11.0\n"
+"X-Domain: wpcf7sc\n"
+"Language: nl_NL\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Plugin Name of the plugin
+#: contact-form-7-simple-captcha.php
+msgid "Contact Form 7 Simple Captcha Extension"
+msgstr ""
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: contact-form-7-simple-captcha.php
+msgid "http://dev.patrick-mauersberger.de"
+msgstr ""
+
+#. Description of the plugin
+#: contact-form-7-simple-captcha.php
+msgid "A simple \"I am not a robot\" captcha for Contact Form 7. Required plugin: Contact Form 7"
+msgstr "Een eenvoudige captcha “Ik ben geen robot” voor Contact Form 7. Vereiste plug-in: Contact Form 7"
+
+#. Author of the plugin
+#: contact-form-7-simple-captcha.php
+msgid "Patrick Mauersberger"
+msgstr ""
+
+#: inc/admin/options.php:49
+msgid "Contact Form 7 Simple Captcha"
+msgstr ""
+
+#: inc/admin/options.php:50
+msgid "CF7 Simple Captcha"
+msgstr ""
+
+#: inc/admin/options.php:65
+#: inc/admin/options.php:104
+msgid "You did not have the permission to edit this page"
+msgstr "U heeft geen toestemming om deze pagina te bewerken."
+
+#: inc/admin/options.php:69
+msgid "Contact Form 7 › Simple Captcha"
+msgstr ""
+
+#: inc/admin/options.php:72
+msgid "A new secret was created. All values that were handed out so far are invalid now."
+msgstr "Er is een nieuwe geheime sleutel aangemaakt. Alle tot nu toe uitgegeven waarden zijn nu ongeldig."
+
+#: inc/admin/options.php:84
+msgid "Secret"
+msgstr "Geheime sleutel"
+
+#: inc/admin/options.php:85
+msgid "The captcha values, the field name and the css classes are derived from a random secret that is stored in the database only. A new secret makes all of them invalid at once. Pages in a cache keep the old values until the cache is cleared."
+msgstr "De captcha-waarden, de veldnaam en de css-klassen worden afgeleid van een willekeurige geheime sleutel die alleen in de database is opgeslagen. Een nieuwe sleutel maakt ze allemaal tegelijk ongeldig. Pagina’s in een cache behouden de oude waarden totdat de cache is geleegd."
+
+#: inc/admin/options.php:86
+msgid "Create a new secret? Cached pages with a captcha stop working until the cache is cleared."
+msgstr "Een nieuwe geheime sleutel aanmaken? Gecachete pagina’s met een captcha werken niet meer totdat de cache is geleegd."
+
+#: inc/admin/options.php:89
+msgid "Create a new secret"
+msgstr "Nieuwe geheime sleutel aanmaken"
+
+#: inc/admin/options.php:122
+msgid "Captcha"
+msgstr ""
+
+#: inc/admin/options.php:126
+msgid "Highlight color"
+msgstr "Markeerkleur"
+
+#: inc/admin/options.php:130
+msgid "hexadecimal color definition with leading #"
+msgstr "hexadecimale kleurdefinitie met leidende #"
+
+#: inc/admin/options.php:137
+msgid "Validity in days"
+msgstr "Geldigheid in dagen"
+
+#: inc/admin/options.php:141
+msgid "How long a captcha value stays valid, between 2 and 90 days. A page in a cache must be younger than this value minus one day."
+msgstr "Hoe lang een captcha-waarde geldig blijft, tussen 2 en 90 dagen. Een pagina in een cache moet jonger zijn dan deze waarde min één dag."
+
+#: inc/admin/tag-generator.php:33
+msgid "simple captcha"
+msgstr ""
+
+#: inc/admin/tag-generator.php:55
+msgid "Simple captcha form-tag generator"
+msgstr "Form-tag-generator voor Simple Captcha"
+
+#: inc/admin/tag-generator.php:58
+msgid "Generates a form-tag for the \"I am not a robot\" captcha. The captcha appears exactly where the tag stands. Without the tag it is added in front of the submit button."
+msgstr "Genereert een form-tag voor de captcha “Ik ben geen robot”. De captcha verschijnt precies waar de tag staat. Zonder de tag wordt hij vóór de verzendknop toegevoegd."
+
+#: inc/admin/tag-generator.php:65
+msgid "Simple captcha"
+msgstr ""
+
+#: inc/updater.php:315
+msgid "The folder of the update could not be renamed."
+msgstr "De map van de update kon niet worden hernoemd."
+
+#: inc/updater.php:352
+msgid "Check for updates"
+msgstr "Controleren op updates"
+
+#: inc/updater.php:365
+msgid "You do not have permission to do this."
+msgstr "U heeft hiervoor geen toestemming."
+
+#: inc/updater.php:386
+msgid "The update data was cleared. WordPress asks for a new Contact Form 7 Simple Captcha version at the next check."
+msgstr "De updategegevens zijn gewist. WordPress zoekt bij de volgende controle naar een nieuwe versie van Contact Form 7 Simple Captcha."
+
+#: template/captcha.php:23
+msgid "I am not a robot"
+msgstr "Ik ben geen robot"

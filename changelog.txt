@@ -1,0 +1,15 @@
+== Changelog ==
+
+= Version 1.0.0 =
+* Initial release: simple "I am not a robot" captcha, extracted from contact-form-7-spamprotect
+* Added: Updater (`inc/updater.php`, ported from SyncPilot): offers new versions from the GitHub releases as a normal plugin update; takes only the `contact-form-7-simple-captcha.zip` of the release from the repository itself, asks GitHub only in the admin, in cron and in WP-CLI, caches failed answers. The constant `WPCF7SC_DISABLE_UPDATER` and the filters `wpcf7sc_updater_enabled` and `wpcf7sc_updater_prereleases` switch it or the pre-releases off
+* Added: Checks of the updater in `tests/` (run with `wp eval-file` on a test installation); the folder is not part of the ZIP
+* Changed: The captcha is inserted in front of the last submit element (`<input type="submit">`, `<button type="submit">`, or a `<button>` without type) and only once; without any submit element it is appended to the end of the form
+* Added: Form tag `[simple_captcha]` places the captcha exactly where it stands in the form; without the tag the captcha is added as before (in front of the last submit element, else at the end)
+* Added: Button "simple captcha" in the tag generator of the Contact Form 7 form editor
+* Changed: The captcha no longer has a fixed value in the code. The valid values are derived (HMAC) from a random secret in the option `wpcf7sc_secret` and the day, a value is valid for 7 days (filter `wpcf7sc_lifetime_days`); a render uses a value of the current day, so cached pages stay valid for 6 days. Five radios: the first and the last one are wrong (the last one is preselected), the right one is somewhere between, the label stands behind it and in front of the last radio. Field name, ids, values and css classes are random-looking hex strings; the field `cp-nonce` is gone. Deleting the option revokes everything
+* Added: Options page: validity of the captcha values in days (option `wpcf7sc_lifetime_days`, 2 to 90, the filter wins) and a button that creates a new secret
+* Changed: The options page is a submenu of the Contact Form 7 menu ("Contact"), it exists only while Contact Form 7 is active
+* Changed: Translations rebuilt from the code (`languages/wpcf7sc.pot`): German (informal and formal), French and Dutch
+* Added: Captcha label in Spanish, Italian, Polish and Brazilian Portuguese (the other texts stay English there)
+* Added: A regional locale without a file of its own uses the translation of its language (de_AT and de_CH: formal German; de_CH_informal, fr_BE, fr_CA, nl_BE, nl_NL_formal, es_MX, pt_PT and so on)

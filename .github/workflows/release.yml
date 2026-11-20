@@ -1,0 +1,48 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Check plugin version matches release tag
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          header=$(grep -m1 -E '^[[:space:]*]*Version:' contact-form-7-simple-captcha.php | sed -E 's/^[[:space:]*]*Version:[[:space:]]*//; s/[[:space:]]+$//')
+          echo "tag=$tag header=$header"
+          if [ "$tag" != "$header" ]; then
+            echo "::error::Release tag ($tag) and plugin header version ($header) must be identical"
+            exit 1
+          fi
+
+      - name: Build plugin ZIP
+        run: |
+          mkdir -p /tmp/contact-form-7-simple-captcha
+          rsync -r \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.claude' \
+            --exclude='node_modules' \
+            --exclude='tests' \
+            --exclude='composer.json' \
+            --exclude='composer.lock' \
+            --exclude='.gitignore' \
+            --exclude='*.md' \
+            --exclude='*.txt' \
+            ./ /tmp/contact-form-7-simple-captcha/contact-form-7-simple-captcha/
+          cd /tmp/contact-form-7-simple-captcha
+          zip -r contact-form-7-simple-captcha.zip contact-form-7-simple-captcha/
+
+      - name: Attach ZIP to release
+        uses: softprops/action-gh-release@v3
+        with:
+          files: /tmp/contact-form-7-simple-captcha/contact-form-7-simple-captcha.zip

@@ -40,6 +40,7 @@ Class Tag_Generator {
     /**
      * The panel of the tag generator
      * @since   1.0.0
+     * @since   1.1.0  Field for the option class:
      *
      * @param   WPCF7_ContactForm  $contact_form  The form that is edited
      * @param   array              $options       Options of the tag generator, 'content' is the panel id
@@ -64,6 +65,9 @@ Class Tag_Generator {
             $tgg->print( 'field_type', [
                 'select_options' => [ 'simple_captcha' => __( 'Simple captcha', 'wpcf7sc' ) ],
             ] );
+
+            // class: of the tag, added to the wrapper of the captcha in this form
+            $tgg->print( 'class_attr' );
         } );
 
         $formatter->end_tag( 'div' );

@@ -13,11 +13,11 @@
  * Author URI:        http://dev.patrick-mauersberger.de
  * Text Domain:       wpcf7sc
  * Domain Path:       /languages
- * Version:           1.0.0
+ * Version:           1.1.0
  * License:           GPLv2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  *
- * @version 1.0.0
+ * @version 1.1.0
  * @package contact-form-7-simple-captcha
  */
 

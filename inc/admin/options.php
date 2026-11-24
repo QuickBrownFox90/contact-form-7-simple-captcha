@@ -12,6 +12,7 @@
 namespace WPCF7_SimpleCaptcha\Admin;
 
 use WPCF7_SimpleCaptcha\Captcha;
+use WPCF7_SimpleCaptcha\Style;
 
 Class Options {
 
@@ -58,6 +59,7 @@ Class Options {
     /**
      * The options page template
      * @since   1.0.0
+     * @since   1.1.0  Preview of the captcha
      */
 
     public function add_page() {
@@ -78,6 +80,13 @@ Class Options {
                     submit_button();
                 ?>
             </form>
+
+            <hr />
+
+            <h2><?php esc_html_e( 'Preview', 'wpcf7sc' ); ?></h2>
+            <p class="description"><?php esc_html_e( 'The captcha with the saved settings. Click it to see the tick; the colors of your theme may differ.', 'wpcf7sc' ); ?></p>
+            <style><?php echo Style::css(); ?></style>
+            <div style="padding: 1em 0;"><?php echo Captcha::render(); ?></div>
 
             <hr />
 
@@ -115,22 +124,31 @@ Class Options {
     /**
      * The options page fields setup
      * @since   1.0.0
+     * @since   1.1.0  Style settings in one option, they replace the highlight color
      */
 
     public function options_setup() {
 
         add_settings_section( self::Group, __( 'Captcha', 'wpcf7sc' ), null, self::Page );
 
-        add_settings_field(
-            WPCF7SC_PREFIX . 'highlight_color',
-            __( 'Highlight color', 'wpcf7sc' ),
-            [ $this, 'setting_input' ],
-            self::Page,
-            self::Group,
-            [ WPCF7SC_PREFIX . 'highlight_color', __( 'hexadecimal color definition with leading #', 'wpcf7sc' ) ]
-        );
+        add_settings_section( 'wpcf7sc_style', __( 'Style', 'wpcf7sc' ), null, self::Page );
 
-        register_setting( self::Group, WPCF7SC_PREFIX . 'highlight_color', [ 'sanitize_callback' => 'sanitize_hex_color' ] );
+        $fields = [
+            'preset'    => __( 'Style', 'wpcf7sc' ),
+            'frame'     => __( 'Frame', 'wpcf7sc' ),
+            'spacing'   => __( 'Spacing', 'wpcf7sc' ),
+            'highlight' => __( 'Highlight color', 'wpcf7sc' ),
+            'class'     => __( 'Additional class', 'wpcf7sc' ),
+        ];
+
+        foreach ( $fields as $field => $title )
+            add_settings_field( WPCF7SC_PREFIX . 'style_' . $field, $title, [ $this, 'style_field' ], self::Page, 'wpcf7sc_style', $field );
+
+        register_setting( self::Group, WPCF7SC_PREFIX . 'style', [
+            'type'              => 'array',
+            'sanitize_callback' => [ 'WPCF7_SimpleCaptcha\\Style', 'sanitize' ],
+            'default'           => Style::defaults(),
+        ] );
 
         add_settings_field(
             WPCF7SC_PREFIX . 'lifetime_days',
@@ -151,19 +169,71 @@ Class Options {
 
 
     /**
-     * Text input field
-     * @since   1.0.0
+     * The fields of the style settings, all stored in one option as an array
+     * @since   1.1.0
      *
-     * @param   array  $args  [ field name, description ]
+     * @param   string  $field  Which field: preset, frame, spacing, highlight or class
      */
 
-    public function setting_input( $args ) {
-        printf(
-            '<input type="text" class="regular-text" name="%1$s" id="%1$s" value="%2$s" /><p class="description">%3$s</p>',
-            esc_attr( $args[0] ),
-            esc_attr( get_option( $args[0], '' ) ),
-            esc_html( $args[1] )
-        );
+    public function style_field( $field ) {
+
+        $st   = Style::get();
+        $name = WPCF7SC_PREFIX . 'style';
+
+        $text = function ( $key, $class = 'small-text', $placeholder = '' ) use ( $st, $name ) {
+            return sprintf( '<input type="text" class="%1$s" name="%2$s[%3$s]" id="%2$s-%3$s" value="%4$s" placeholder="%5$s" />', esc_attr( $class ), esc_attr( $name ), esc_attr( $key ), esc_attr( $st[ $key ] ), esc_attr( $placeholder ) );
+        };
+
+        $number = function ( $key, $max, $step ) use ( $st, $name ) {
+            return sprintf( '<input type="number" class="small-text" min="0" max="%4$s" step="%5$s" name="%1$s[%2$s]" id="%1$s-%2$s" value="%3$s" />', esc_attr( $name ), esc_attr( $key ), esc_attr( $st[ $key ] ), esc_attr( $max ), esc_attr( $step ) );
+        };
+
+        $label = function ( $key, $text ) use ( $name ) {
+            return sprintf( '<label for="%1$s-%2$s">%3$s</label> ', esc_attr( $name ), esc_attr( $key ), esc_html( $text ) );
+        };
+
+        switch ( $field ) {
+
+            case 'preset':
+
+                $presets = [
+                    'box'      => [ __( 'Box', 'wpcf7sc' ), __( 'a frame around the captcha, all fields below apply', 'wpcf7sc' ) ],
+                    'minimal'  => [ __( 'Minimal', 'wpcf7sc' ), __( 'only the box and the text, the highlight color and the class apply', 'wpcf7sc' ) ],
+                    'unstyled' => [ __( 'Unstyled', 'wpcf7sc' ), __( 'only what is needed to work, your theme does the rest; only the class applies', 'wpcf7sc' ) ],
+                ];
+
+                echo '<fieldset>';
+
+                foreach ( $presets as $key => $preset )
+                    printf( '<label><input type="radio" name="%1$s[preset]" value="%2$s"%3$s /> <strong>%4$s</strong> – %5$s</label><br />', esc_attr( $name ), esc_attr( $key ), checked( $st['preset'], $key, false ), esc_html( $preset[0] ), esc_html( $preset[1] ) );
+
+                echo '</fieldset>';
+                break;
+
+            case 'frame':
+                echo $label( 'border_color', __( 'Color', 'wpcf7sc' ) ) . $text( 'border_color', 'medium-text', '#cccccc' ) . ' &nbsp; ';
+                echo $label( 'border_width', __( 'Width', 'wpcf7sc' ) ) . $number( 'border_width', 10, 1 ) . ' px &nbsp; ';
+                echo $label( 'radius', __( 'Radius', 'wpcf7sc' ) ) . $number( 'radius', 50, 1 ) . ' px &nbsp; ';
+                echo $label( 'background', __( 'Background', 'wpcf7sc' ) ) . $text( 'background', 'medium-text', '#ffffff' );
+                echo '<p class="description">' . esc_html__( 'Colors as hexadecimal values with a leading #. An empty background is transparent. Only for the style "Box".', 'wpcf7sc' ) . '</p>';
+                break;
+
+            case 'spacing':
+                echo $label( 'padding', __( 'Inside', 'wpcf7sc' ) ) . $number( 'padding', 3, .25 ) . ' em &nbsp; ';
+                echo $label( 'margin', __( 'Above and below', 'wpcf7sc' ) ) . $number( 'margin', 3, .25 ) . ' em';
+                echo '<p class="description">' . esc_html__( 'Only for the style "Box".', 'wpcf7sc' ) . '</p>';
+                break;
+
+            case 'highlight':
+                echo $text( 'highlight', 'medium-text', '#' );
+                echo '<p class="description">' . esc_html__( 'Color of the tick and of the focus, a hexadecimal value with a leading #. Empty means the color of the text. Not for the style "Unstyled".', 'wpcf7sc' ) . '</p>';
+                break;
+
+            case 'class':
+                echo $text( 'class', 'regular-text', 'wpcf7sc__wrap' );
+                echo '<p class="description">' . esc_html__( 'Css classes for the wrapper of the captcha, separated by spaces, for themes with their own css. Empty by default, so that the captcha has no name that is the same on every site. A single form can get a class with the option class: of the tag [simple_captcha].', 'wpcf7sc' ) . '</p>';
+                break;
+        }
     }
 
 

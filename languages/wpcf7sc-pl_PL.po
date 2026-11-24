@@ -4,16 +4,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Contact Form 7 Simple Captcha Extension 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/contact-form-7-simple-captcha\n"
+"POT-Creation-Date: 2026-11-24T15:23:51+00:00\n"
+"PO-Revision-Date: 2026-11-20 13:51+0000\n"
 "Last-Translator: Patrick Mauersberger\n"
 "Language-Team: Polish\n"
+"Language: pl_PL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-20T13:46:13+00:00\n"
-"PO-Revision-Date: 2026-11-20 13:51+0000\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wpcf7sc\n"
-"Language: pl_PL\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #. Plugin Name of the plugin
@@ -37,61 +37,144 @@ msgstr ""
 msgid "Patrick Mauersberger"
 msgstr ""
 
-#: inc/admin/options.php:49
+#: inc/admin/options.php:50
 msgid "Contact Form 7 Simple Captcha"
 msgstr ""
 
-#: inc/admin/options.php:50
+#: inc/admin/options.php:51
 msgid "CF7 Simple Captcha"
 msgstr ""
 
-#: inc/admin/options.php:65
-#: inc/admin/options.php:104
+#: inc/admin/options.php:66 inc/admin/options.php:112
 msgid "You did not have the permission to edit this page"
 msgstr ""
 
-#: inc/admin/options.php:69
+#: inc/admin/options.php:70
 msgid "Contact Form 7 › Simple Captcha"
 msgstr ""
 
-#: inc/admin/options.php:72
+#: inc/admin/options.php:73
 msgid "A new secret was created. All values that were handed out so far are invalid now."
 msgstr ""
 
-#: inc/admin/options.php:84
-msgid "Secret"
-msgstr ""
-
 #: inc/admin/options.php:85
-msgid "The captcha values, the field name and the css classes are derived from a random secret that is stored in the database only. A new secret makes all of them invalid at once. Pages in a cache keep the old values until the cache is cleared."
+msgid "Preview"
 msgstr ""
 
 #: inc/admin/options.php:86
+msgid "The captcha with the saved settings. Click it to see the tick; the colors of your theme may differ."
+msgstr ""
+
+#: inc/admin/options.php:92
+msgid "Secret"
+msgstr ""
+
+#: inc/admin/options.php:93
+msgid "The captcha values, the field name and the css classes are derived from a random secret that is stored in the database only. A new secret makes all of them invalid at once. Pages in a cache keep the old values until the cache is cleared."
+msgstr ""
+
+#: inc/admin/options.php:94
 msgid "Create a new secret? Cached pages with a captcha stop working until the cache is cleared."
 msgstr ""
 
-#: inc/admin/options.php:89
+#: inc/admin/options.php:97
 msgid "Create a new secret"
 msgstr ""
 
-#: inc/admin/options.php:122
+#: inc/admin/options.php:130
 msgid "Captcha"
 msgstr ""
 
-#: inc/admin/options.php:126
-msgid "Highlight color"
+#: inc/admin/options.php:132 inc/admin/options.php:135
+msgid "Style"
 msgstr ""
 
-#: inc/admin/options.php:130
-msgid "hexadecimal color definition with leading #"
+#: inc/admin/options.php:136
+msgid "Frame"
 msgstr ""
 
 #: inc/admin/options.php:137
+msgid "Spacing"
+msgstr ""
+
+#: inc/admin/options.php:138
+msgid "Highlight color"
+msgstr ""
+
+#: inc/admin/options.php:139
+msgid "Additional class"
+msgstr ""
+
+#: inc/admin/options.php:153
 msgid "Validity in days"
 msgstr ""
 
-#: inc/admin/options.php:141
+#: inc/admin/options.php:157
 msgid "How long a captcha value stays valid, between 2 and 90 days. A page in a cache must be younger than this value minus one day."
+msgstr ""
+
+#: inc/admin/options.php:198
+msgid "Box"
+msgstr ""
+
+#: inc/admin/options.php:198
+msgid "a frame around the captcha, all fields below apply"
+msgstr ""
+
+#: inc/admin/options.php:199
+msgid "Minimal"
+msgstr ""
+
+#: inc/admin/options.php:199
+msgid "only the box and the text, the highlight color and the class apply"
+msgstr ""
+
+#: inc/admin/options.php:200
+msgid "Unstyled"
+msgstr ""
+
+#: inc/admin/options.php:200
+msgid "only what is needed to work, your theme does the rest; only the class applies"
+msgstr ""
+
+#: inc/admin/options.php:212
+msgid "Color"
+msgstr ""
+
+#: inc/admin/options.php:213
+msgid "Width"
+msgstr ""
+
+#: inc/admin/options.php:214
+msgid "Radius"
+msgstr ""
+
+#: inc/admin/options.php:215
+msgid "Background"
+msgstr ""
+
+#: inc/admin/options.php:216
+msgid "Colors as hexadecimal values with a leading #. An empty background is transparent. Only for the style \"Box\"."
+msgstr ""
+
+#: inc/admin/options.php:220
+msgid "Inside"
+msgstr ""
+
+#: inc/admin/options.php:221
+msgid "Above and below"
+msgstr ""
+
+#: inc/admin/options.php:222
+msgid "Only for the style \"Box\"."
+msgstr ""
+
+#: inc/admin/options.php:227
+msgid "Color of the tick and of the focus, a hexadecimal value with a leading #. Empty means the color of the text. Not for the style \"Unstyled\"."
+msgstr ""
+
+#: inc/admin/options.php:232
+msgid "Css classes for the wrapper of the captcha, separated by spaces, for themes with their own css. Empty by default, so that the captcha has no name that is the same on every site. A single form can get a class with the option class: of the tag [simple_captcha]."
 msgstr ""
 
 #: inc/admin/tag-generator.php:33

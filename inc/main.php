@@ -6,7 +6,7 @@
  * @author   Patrick Mauersberger
  * @since    1.0.0
  *
- * @version  1.0.0
+ * @version  1.1.0
  *
  * @package  contact-form-7-simple-captcha
  */
@@ -16,6 +16,7 @@ namespace WPCF7_SimpleCaptcha;
 require_once 'admin/options.php';
 require_once 'admin/tag-generator.php';
 require_once 'captcha.php';
+require_once 'style.php';
 require_once 'updater.php';
 
 Class Main {
@@ -46,6 +47,7 @@ Class Main {
     /**
      * Main class constructor
      * @since   1.0.0
+     * @since   1.1.0  Prints the script for the keyboard in the footer
      * @access  public
      *
      * @return  void
@@ -73,6 +75,7 @@ Class Main {
         if ( ! is_admin() && ! defined( 'DOING_AJAX' ) ) {
             // need a case for cf7 pages
             add_action( 'wp_head', [ $this, 'add_style' ] );
+            add_action( 'wp_footer', [ $this, 'add_script' ] );
 
             add_filter( 'wpcf7_spam', [ 'WPCF7_SimpleCaptcha\\Captcha', 'validate_captcha_field' ], 11, 1 );
             add_filter( 'wpcf7_form_elements', [ 'WPCF7_SimpleCaptcha\\Captcha', 'add_captcha' ], 12, 1 );
@@ -144,32 +147,39 @@ Class Main {
     /**
      * Add inline style to the sites <head>
      * @since   1.0.0
+     * @since   1.1.0  The css comes from the class Style
      * @access  public
      *
      * @return  void
      */
 
     public function add_style() {
+        echo '<style>' . Style::css() . '</style>';
+    }
 
-        $color = sanitize_hex_color( get_option( WPCF7SC_PREFIX . 'highlight_color', '' ) );
-        $color = $color ? $color : 'currentcolor';
 
-        $w = '.' . Captcha::css_class( 'wrap' );
-        $r = '.' . Captcha::css_class( 'radio' );
-        $l = '.' . Captcha::css_class( 'label' );
+    /**
+     * Add the few lines of script that make the captcha usable with the keyboard. The radio buttons are not displayed, so
+     * the label becomes the control: it gets the tab stop and the role of a checkbox, and the space bar and the enter key
+     * click it. Without the script the captcha works with the mouse and the touch screen as before. It is printed only
+     * if a captcha was rendered on the page, and the selector is the css class of this site, never a fixed name.
+     * @since   1.1.0
+     * @access  public
+     *
+     * @return  void
+     */
 
-        $s  = '<style>';
-        $s .= $w . ' br { display: none !important; }';
-        $s .= $w . ' ~ .wpcf7-submit, ' . $w . ' ~ p > .wpcf7-submit { margin-top: 1rem }';
-        $s .= '.multipage__tab:last-of-type .multipage__prev { margin-top: 3.5rem; }';
-        $s .= $r . ' { display: none !important; }';
-        $s .= $w . ' ' . $l . ' { position: relative; display: inline-block; }';
-        $s .= $l . '::before { content: ""; display: inline-block; margin-right: 1ex; width: 1em; height: 1em; border: 1px solid currentcolor; }';
-        $s .= $l . '::after { content: ""; display: none; position: absolute; left: .2em; top: .1em; width: 1em; height: .5em; border: 0 solid ' . $color . '; border-width: 0 0 2px 2px; transform: rotate( -45deg ); }';
-        $s .= $r . ':checked ~ ' . $l . '::after { display: block; }';
-        $s .= '</style>';
+    public function add_script() {
 
-        echo $s;
+        if ( ! Captcha::was_rendered() )
+            return;
+
+        echo '<script>document.querySelectorAll(".' . esc_js( Captcha::css_class( 'wrap' ) ) . ' label").forEach(function(l){'
+            . 'var r=document.getElementById(l.htmlFor);if(!r)return;'
+            . 'l.tabIndex=0;l.setAttribute("role","checkbox");l.setAttribute("aria-checked",r.checked?"true":"false");'
+            . 'l.addEventListener("keydown",function(e){if(e.key===" "||e.key==="Enter"){e.preventDefault();l.click();}});'
+            . 'r.addEventListener("change",function(){l.setAttribute("aria-checked",r.checked?"true":"false");});'
+            . '});</script>';
     }
 
 

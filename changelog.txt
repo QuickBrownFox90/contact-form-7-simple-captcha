@@ -1,5 +1,10 @@
 == Changelog ==
 
+= Version 1.1.0 =
+* Added: Keyboard and screen reader support: a short inline script (printed in the footer only if a captcha was rendered, selector is the css class of the site) gives the label a tab stop and the role of a checkbox; space and enter tick it. Without JavaScript the box still works with mouse and touch. The radio buttons stay hidden as before
+* Added: Style settings in one option `wpcf7sc_style` (replaces `wpcf7sc_highlight_color`): the styles Box (frame color, width, radius, background, spacing), Minimal and Unstyled, the highlight color, and an optional class for the wrapper; a preview on the options page shows the saved style. The css is built by the class `Style` and still printed inline in the head
+* Added: The tag `[simple_captcha]` takes the option `class:` (with a field in the tag generator), the classes are added to the wrapper of that form
+
 = Version 1.0.0 =
 * Initial release: simple "I am not a robot" captcha, extracted from contact-form-7-spamprotect
 * Added: Updater (`inc/updater.php`, ported from SyncPilot): offers new versions from the GitHub releases as a normal plugin update; takes only the `contact-form-7-simple-captcha.zip` of the release from the repository itself, asks GitHub only in the admin, in cron and in WP-CLI, caches failed answers. The constant `WPCF7SC_DISABLE_UPDATER` and the filters `wpcf7sc_updater_enabled` and `wpcf7sc_updater_prereleases` switch it or the pre-releases off

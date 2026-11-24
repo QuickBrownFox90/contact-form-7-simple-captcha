@@ -4,10 +4,11 @@
  * Template file for the simple "I am not a robot" captcha
  *
  * Variables: $name (radio group), $items (radios and the label in their order), $for (id of the right radio),
- * $wrap, $radio, $label (css classes)
+ * $wrap (css classes of the wrapper: the one of the site and the additional ones), $radio, $label (css classes)
  *
  * @author   Patrick Mauersberger
  * @since    1.0.0
+ * @since    1.1.0  Additional css classes on the wrapper
  *
  * @package  contact-form-7-simple-captcha
  */

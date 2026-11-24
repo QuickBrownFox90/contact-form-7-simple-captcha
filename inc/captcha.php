@@ -30,6 +30,27 @@ class Captcha {
 
 
     /**
+     * Was a captcha rendered in this request? The script for the keyboard is only printed then.
+     * @since   1.1.0
+     */
+
+    protected static $rendered = false;
+
+
+    /**
+     * @since   1.1.0
+     * @access  public
+     * @static
+     *
+     * @return  bool
+     */
+
+    public static function was_rendered() {
+        return self::$rendered;
+    }
+
+
+    /**
      * The secret of this site: a random value in its own option, never part of the code. Deleting the option
      * revokes every value that was handed out, a new secret is created at the next call.
      * @since   1.0.0
@@ -191,18 +212,22 @@ class Captcha {
      * selected, the right one stands somewhere between. The label points to the right one by id and stands behind it,
      * but in front of the last radio (the checkmark is drawn by the css sibling selector of the checked radio).
      * @since   1.0.0
+     * @since   1.1.0  Added the parameter $_class; marks that a captcha was rendered
      * @access  public
      * @static
      *
-     * @return  string  The captcha HTML
+     * @param   string  $_class  Additional css classes of the wrapper (from the tag), besides the one of the settings
+     * @return  string           The captcha HTML
      */
 
-    public static function render() {
+    public static function render( $_class = '' ) {
 
         $tpl_path = WPCF7SC_ROOT . '/template/captcha.php';
 
         if ( ! file_exists( $tpl_path ) )
             return '';
+
+        self::$rendered = true;
 
         $last    = self::Radios - 1;
         $right   = random_int( 1, $last - 1 );
@@ -236,7 +261,7 @@ class Captcha {
             'name'  => $name,
             'items' => $items,
             'for'   => $for,
-            'wrap'  => self::css_class( 'wrap' ),
+            'wrap'  => trim( self::css_class( 'wrap' ) . ' ' . Style::sanitize_classes( Style::get()['class'] . ' ' . $_class ) ),
             'radio' => self::css_class( 'radio' ),
             'label' => self::css_class( 'label' ),
         ];
@@ -296,16 +321,21 @@ class Captcha {
 
 
     /**
-     * Form tag handler for [simple_captcha]
+     * Form tag handler for [simple_captcha], the option class: of the tag adds css classes to the wrapper
      * @since   1.0.0
+     * @since   1.1.0  Added the parameter $_tag, its option class: is added to the wrapper
      * @access  public
      * @static
      *
-     * @return  string  The captcha HTML
+     * @param   \WPCF7_FormTag|null  $_tag  The form tag
+     * @return  string                     The captcha HTML
      */
 
-    static function form_tag_handler() {
-        return self::render();
+    static function form_tag_handler( $_tag = null ) {
+
+        $class = ( is_object( $_tag ) && method_exists( $_tag, 'get_class_option' ) ) ? (string) $_tag->get_class_option( '' ) : '';
+
+        return self::render( $class );
     }
 
 
